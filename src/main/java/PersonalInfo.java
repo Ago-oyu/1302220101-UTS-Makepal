@@ -43,6 +43,10 @@ public class PersonalInfo {
         return spouse;
     }
 
+    public boolean hasSpouse() {
+        return spouse != null;
+    }
+
     public List<Child> getChildren() {
         return children;
     }

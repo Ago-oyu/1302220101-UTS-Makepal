@@ -12,29 +12,41 @@ public class TaxFunction {
 
 
     public static int calculateTax(Employee employee) {
+        validateMonthWorkingInYear(employee);
 
-        int tax = 0;
-        int numberOfChildren = employee.getPersonalInfo().getChildren().size();
+        int totalIncome = calculteTotalIncome(employee);
+        return calculateFinalTax(totalIncome);
+    }
 
+    private static void validateMonthWorkingInYear(Employee employee) {
         if (employee.getEmploymentDetails().getMonthWorkingInYear() > 12) {
             System.err.println("More than 12 month working per year");
         }
+    }
 
-        if ( numberOfChildren> 3) {
-            numberOfChildren = 3;
+    private  static int limitNumberOfChildren(int numberOfChildren) {
+        if (numberOfChildren > 3) {
+            return 3;
+        }
+        return numberOfChildren;
+    }
+
+    private static int calculteTotalIncome(Employee employee) {
+        int numberOfChildren = limitNumberOfChildren(employee.getPersonalInfo().getChildren().size());
+
+        if (employee.getPersonalInfo().hasSpouse()) {
+            return (((employee.getEmploymentDetails().getIncome().getMonthlySalary() + employee.getEmploymentDetails().getIncome().getOtherMonthlyIncome()) * employee.getEmploymentDetails().getMonthWorkingInYear()) - employee.getEmploymentDetails().getIncome().getAnnualDeductible() - (54000000 + 4500000 + (numberOfChildren * 1500000)));
+        } else {
+           return  (((employee.getEmploymentDetails().getIncome().getMonthlySalary() + employee.getEmploymentDetails().getIncome().getOtherMonthlyIncome()) * employee.getEmploymentDetails().getMonthWorkingInYear()) - employee.getEmploymentDetails().getIncome().getAnnualDeductible() - 54000000);
         }
 
-        if (!employee.getPersonalInfo().getSpouse().getName().isEmpty()) {
-            tax = (int) Math.round(0.05 * (((employee.getEmploymentDetails().getIncome().getMonthlySalary() + employee.getEmploymentDetails().getIncome().getOtherMonthlyIncome()) * employee.getEmploymentDetails().getMonthWorkingInYear()) - employee.getEmploymentDetails().getIncome().getAnnualDeductible() - (54000000 + 4500000 + (numberOfChildren * 1500000))));
-        }else {
-            tax = (int) Math.round(0.05 * (((employee.getEmploymentDetails().getIncome().getMonthlySalary() + employee.getEmploymentDetails().getIncome().getOtherMonthlyIncome()) * employee.getEmploymentDetails().getMonthWorkingInYear()) - employee.getEmploymentDetails().getIncome().getAnnualDeductible() - 54000000));
-        }
+    }
 
+    private static int calculateFinalTax(int totalIncome) {
+        int tax = (int) Math.round(0.5 * totalIncome);
         if (tax < 0) {
             return 0;
-        }else {
-            return tax;
         }
-
+        return tax;
     }
 }
