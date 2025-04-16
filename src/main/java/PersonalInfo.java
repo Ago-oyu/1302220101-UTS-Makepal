@@ -39,6 +39,14 @@ public class PersonalInfo {
         return gender;
     }
 
+    public Spouse getSpouse() {
+        return spouse;
+    }
+
+    public List<Child> getChildren() {
+        return children;
+    }
+
     public void setSpouse(Spouse spouse) {
         this.spouse = spouse;
     }
