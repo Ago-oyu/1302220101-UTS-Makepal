@@ -46,21 +46,18 @@ public class Employee {
      */
 
     public void setMonthlySalary(int grade) {
+        int baseSalary = 0;
+
         if (grade == 1) {
-            monthlySalary = 3000000;
-            if (isForeigner) {
-                monthlySalary = (int) (3000000 * 1.5);
-            }
+            baseSalary = 3000000;
         }else if (grade == 2) {
-            monthlySalary = 5000000;
-            if (isForeigner) {
-                monthlySalary = (int) (3000000 * 1.5);
-            }
+            baseSalary = 5000000;
         }else if (grade == 3) {
-            monthlySalary = 7000000;
-            if (isForeigner) {
-                monthlySalary = (int) (3000000 * 1.5);
-            }
+            baseSalary = 7000000;
+        }
+
+        if (isForeigner) {
+            monthlySalary = (int) (baseSalary * 1.5);
         }
     }
 
