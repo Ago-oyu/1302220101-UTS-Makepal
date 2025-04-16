@@ -23,8 +23,7 @@ public class Employee {
 
     private Spouse spouse;
 
-    private List<String> childNames;
-    private List<String> childIdNumbers;
+    private List<Child> children;
 
     public Employee(String employeeId, String firstName, String lastName, String idNumber, String address, int yearJoined, int monthJoined, int dayJoined, boolean isForeigner, boolean gender) {
         this.employeeId = employeeId;
@@ -38,8 +37,7 @@ public class Employee {
         this.isForeigner = isForeigner;
         this.gender = gender;
 
-        childNames = new LinkedList<String>();
-        childIdNumbers = new LinkedList<String>();
+        this.children = new LinkedList<Child>();
     }
 
     /**
@@ -78,9 +76,8 @@ public class Employee {
         this.spouse = spouse;
     }
 
-    public void addChild(String childName, String childIdNumber) {
-        childNames.add(childName);
-        childIdNumbers.add(childIdNumber);
+    public void addChild(Child child) {
+        this.children.add(child);
     }
 
     public int getAnnualIncomeTax() {
@@ -94,6 +91,6 @@ public class Employee {
             monthWorkingInYear = 12;
         }
 
-        return TaxFunction.calculateTax(monthlySalary, otherMonthlyIncome, monthWorkingInYear, annualDeductible, spouse.getId().equals(""), childIdNumbers.size());
+        return TaxFunction.calculateTax(monthlySalary, otherMonthlyIncome, monthWorkingInYear, annualDeductible, spouse.getId().equals(""), children.size());
     }
 }
