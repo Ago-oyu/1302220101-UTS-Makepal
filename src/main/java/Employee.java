@@ -16,6 +16,14 @@ public class Employee {
     }
 
     public int getAnnualIncomeTax() {
-        return TaxFunction.calculateTax(employmentDetails.getIncome().getMonthlySalary(), employmentDetails.getIncome().getOtherMonthlyIncome(), employmentDetails.getMonthWorkingInYear(), employmentDetails.getIncome().getAnnualDeductible(), spouse.getId().equals(""), children.size());
+        return TaxFunction.calculateTax(this);
+    }
+
+    public PersonalInfo getPersonalInfo() {
+        return personalInfo;
+    }
+
+    public EmploymentDetails getEmploymentDetails() {
+        return employmentDetails;
     }
 }
