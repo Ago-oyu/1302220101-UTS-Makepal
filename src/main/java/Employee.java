@@ -6,12 +6,7 @@ public class Employee {
     private String employeeId;
     private PersonalInfo personalInfo;
 
-    private int yearJoined;
-    private int monthJoined;
-    private int dayJoined;
-    private int monthWorkingInYear;
-
-    private boolean isForeigner;
+    private EmploymentDetails employmentDetails;
 
     private int monthlySalary;
     private int otherMonthlyIncome;
@@ -21,13 +16,10 @@ public class Employee {
 
     private List<Child> children;
 
-    public Employee(String employeeId,PersonalInfo personalInfo, int yearJoined, int monthJoined, int dayJoined, boolean isForeigner) {
+    public Employee(String employeeId,PersonalInfo personalInfo, EmploymentDetails employmentDetails) {
         this.employeeId = employeeId;
        this.personalInfo = personalInfo;
-        this.yearJoined = yearJoined;
-        this.monthJoined = monthJoined;
-        this.dayJoined = dayJoined;
-        this.isForeigner = isForeigner;
+        this.employmentDetails = employmentDetails;
 
         this.children = new LinkedList<Child>();
     }
@@ -48,7 +40,7 @@ public class Employee {
             baseSalary = 7000000;
         }
 
-        if (isForeigner) {
+        if (employmentDetails.isForeigner()) {
             monthlySalary = (int) (baseSalary * 1.5);
         }
     }
@@ -70,16 +62,6 @@ public class Employee {
     }
 
     public int getAnnualIncomeTax() {
-
-        //Menghitung berapa lama pegawai bekerja dalam setahun ini, jika pegawai sudah bekerja dari tahun sebelumnya maka otomatis dianggap 12 bulan.
-        LocalDate date = LocalDate.now();
-
-        if (date.getYear() == yearJoined) {
-            monthWorkingInYear = date.getMonthValue() - monthJoined;
-        }else {
-            monthWorkingInYear = 12;
-        }
-
-        return TaxFunction.calculateTax(monthlySalary, otherMonthlyIncome, monthWorkingInYear, annualDeductible, spouse.getId().equals(""), children.size());
+        return TaxFunction.calculateTax(monthlySalary, otherMonthlyIncome, employmentDetails.getMonthWorkingInYear(), annualDeductible, spouse.getId().equals(""), children.size());
     }
 }
